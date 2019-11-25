@@ -1,12 +1,13 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
 from flask_mysqldb import MySQL
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators, DateField, BooleanField,SelectField
+from wtforms import Form, StringField, TextAreaField, PasswordField, validators, DateField, BooleanField,SelectField,IntegerField
+
 from passlib.hash import sha256_crypt
 from functools import wraps
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 import os
-
+IntegerField
 app = Flask(__name__)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -21,6 +22,8 @@ class Todo(db.Model):
 	body = db.Column(db.String(300),nullable=False)
 	complete = db.Column(db.Boolean)
 	date = db.Column(db.Date,nullable=False)
+	publication=db.Column(db.String(300),nullable=False)
+	yearofpub=db.Column(db.Integer, nullable=False)
 	author = db.Column(db.String(100))
 
 class User(db.Model):
@@ -159,7 +162,7 @@ def is_logged_in(f):
 @is_logged_in
 def logout():
 	session.clear()
-	flash('You are now logged out', 'sucess')
+	flash('You are now logged out', 'success')
 	return redirect(url_for('login'))
 
 
@@ -213,12 +216,16 @@ class AddItemForm(Form):
 	title = StringField('Title', [validators.Length(min=1, max=200)])
 	body = StringField('Body', [validators.Length(min=0)])
 	date = DateField('Date', format='%Y-%m-%d')
+	publication = StringField('Publication', [validators.Length(min=1, max=300)])
+	yearofpub=IntegerField('Year Of Publication', [validators.required()])
 
 # Item form
 class ItemForm(Form):
 	title = StringField('Title', [validators.Length(min=1, max=200)])
 	body = StringField('Body', [validators.Length(min=0)])
 	date = DateField('Date', format='%Y-%m-%d')
+	publication = StringField('Publication', [validators.Length(min=1, max=300)])
+	yearofpub=IntegerField('Year Of Publication', [validators.required()])
 	complete = SelectField('Status', coerce=str, choices = [("True", "Complete"), ("False", "Incomplete")])
 
 #Dashboard
@@ -226,11 +233,15 @@ class ItemForm(Form):
 @is_logged_in
 def add_item():
 	form = AddItemForm(request.form)
-	form.date.data = datetime.strptime("2018-01-01", "%Y-%m-%d")
+	form.date.data = datetime.strptime("2019-01-01", "%Y-%m-%d")
+	#form.yearofpub.data=datetime.strptime('2019',"%Y")
+
 	if request.method == 'POST' and form.validate():
 		title = form.title.data
 		body = form.body.data
 		date = form.date.data
+		publication = form.publication.data
+		yearofpub = form.yearofpub.data
 
 		#Create Cursor
 		# cur = mysql.connection.cursor()
@@ -244,7 +255,7 @@ def add_item():
 		#Close connection
 		# cur.close()
 
-		todo = Todo(title=title, body=body, date=date, author=session['username'],complete=False)
+		todo = Todo(title=title, body=body, date=date, publication=publication, yearofpub=yearofpub, author=session['username'],complete=False)
 		db.session.add(todo)
 		db.session.commit()
 
@@ -272,7 +283,9 @@ def edit_item(id):
 
 	#Get form
 	form = ItemForm(request.form)
+	form.publication.data=todo.publication
 	form.date.data = todo.date
+	form.yearofpub.data = todo.yearofpub
 	#Populate article form fields
 	form.title.data = todo.title
 	form.body.data = todo.body
@@ -282,8 +295,10 @@ def edit_item(id):
 		form.complete.data = "False"
 
 	if request.method == 'POST' and form.validate():
+		publication=request.form['publication']
 		title = request.form['title']
 		body = request.form['body']
+		yearofpub = request.form['yearofpub']
 		complete = request.form['complete']
 
 		#Create Cursor
@@ -297,7 +312,7 @@ def edit_item(id):
 
 		#Close connection
 		# cur.close()
-
+		todo.publication=publication
 		todo.title = title
 		todo.body = body
 		if complete == "True":

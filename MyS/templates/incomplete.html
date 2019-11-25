@@ -2,10 +2,10 @@
 
 {% block body %}
 	<h1>ToDoList</h1>
-	<small>Welcome {{session.username}}</small>
-	<a class="btn btn-success" href="/add_item">Start New</a>
-	<a class="btn btn-primary" href="/complete">Complete Tasks</a>
-	<a class="btn btn-primary" href="/incomplete">Incomplete Tasks</a>
+	<large>Welcome {{session.username}}</large>
+	<a class="btn btn-success" href="/add_item">Add</a>
+	<a class="btn btn-primary" href="/complete">Conference</a>
+	<a class="btn btn-primary" href="/incomplete">Journal</a>
 	<hr>
 	<table class="table table-striped">
 		<tr>
@@ -13,7 +13,9 @@
 			<th>Title</th>
 			<th>Author</th>
 			<th>Date</th>
-			<th>Status</th>
+            <th>Publication</th>
+            <th>Year Of Publication</th>
+			<th>Category</th>
 			<th></th>
 			<th></th>
 			<th></th>
@@ -24,18 +26,20 @@
 				<td>{{item.title}}</td>
 				<td>{{item.author}}</td>
 				<td>{{item.date}}</td>
+                <td>{{ item.publication}}</td>
+                <td>{{ item.yearofpub }}</td>
 				{% if item.complete == True %}
-				<td>Complete</td>
+				<td>Conference</td>
 				{% else %}
-				<td>Incomplete</td>
+				<td>Jounal</td>
 				{% endif %}
 				<td><a class="btn btn-default pull-right" href="/edit_item/{{item.id}}">Edit</a></td>
-				<td>
+				<!--<td>
 					<form class="" action="{{url_for('done_item', id=item.id)}}" method="post">
 						<input type="hidden" name="_method" value="Finished">
 						<input type="submit" value="Finished" class="btn btn-success">
 					</form>
-				</td>
+				</td>-->
 				<td>
 					<form class="" action="{{url_for('delete_item', id=item.id)}}" method="post">
 						<input type="hidden" name="_method" value="DELETE">

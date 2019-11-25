@@ -63,58 +63,66 @@
       <Position>6</Position>
       <DataType>VARCHAR(100)|0s</DataType>
     </column>
-    <key id="20" parent="7">
+    <column id="20" parent="7" name="publication">
+      <Position>7</Position>
+      <DataType>VARCHAR(300)|0s</DataType>
+    </column>
+    <column id="21" parent="7" name="yearofpub">
+      <Position>8</Position>
+      <DataType>INTEGER|0s</DataType>
+    </column>
+    <key id="22" parent="7">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <check id="21" parent="7">
+    <check id="23" parent="7">
       <Predicate>complete IN (0, 1)</Predicate>
     </check>
-    <column id="22" parent="8" name="id">
+    <column id="24" parent="8" name="id">
       <Position>1</Position>
       <DataType>INTEGER|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="23" parent="8" name="name">
+    <column id="25" parent="8" name="name">
       <Position>2</Position>
       <DataType>VARCHAR(200)|0s</DataType>
     </column>
-    <column id="24" parent="8" name="username">
+    <column id="26" parent="8" name="username">
       <Position>3</Position>
       <DataType>VARCHAR(200)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="25" parent="8" name="password">
+    <column id="27" parent="8" name="password">
       <Position>4</Position>
       <DataType>VARCHAR(300)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="26" parent="8" name="create_date">
+    <column id="28" parent="8" name="create_date">
       <Position>5</Position>
       <DataType>DATE|0s</DataType>
     </column>
-    <column id="27" parent="8" name="email">
+    <column id="29" parent="8" name="email">
       <Position>6</Position>
       <DataType>VARCHAR(200)|0s</DataType>
     </column>
-    <column id="28" parent="8" name="contact">
+    <column id="30" parent="8" name="contact">
       <Position>7</Position>
       <DataType>VARCHAR(10)|0s</DataType>
     </column>
-    <column id="29" parent="8" name="affiliation">
+    <column id="31" parent="8" name="affiliation">
       <Position>8</Position>
       <DataType>VARCHAR(200)|0s</DataType>
     </column>
-    <column id="30" parent="8" name="gslink">
+    <column id="32" parent="8" name="gslink">
       <Position>9</Position>
       <DataType>VARCHAR(200)|0s</DataType>
     </column>
-    <index id="31" parent="8" name="user_contact_uindex">
+    <index id="33" parent="8" name="user_contact_uindex">
       <ColNames>contact</ColNames>
       <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
-    <key id="32" parent="8">
+    <key id="34" parent="8">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>

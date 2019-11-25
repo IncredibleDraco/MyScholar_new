@@ -10,8 +10,15 @@
 		<div class="form-group">
 			{{ render_field(form.date, class="form-control") }}
 		</div>
-		<div class="form-group">
+        <div class="form-group">
 			{{ render_field(form.publication, class="form-control") }}
+		</div>
+        <div class="form-group">
+			{{ render_field(form.yearofpub, class="form-control") }}
+		</div>
+
+		<div class="form-group">
+			{{ render_field(form.body, class="form-control") }}
 		</div>
 		<p><input class="btn btn-primary" type="submit" value="Submit"></p>
 	</form>
